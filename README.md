@@ -354,19 +354,4 @@ npm install -g opencode-ai --registry=https://registry.npmmirror.com
 
 ---
 
-## 推荐封面图Prompt
-
-即梦：
-> 现代科技感的命令行终端界面，黑色背景上显示着代码和AI助手对话，
-> 有一个发光的AI图标，整体风格简洁专业，
-> 适合技术教程封面，16:9比例，4K高清
-
-Midjourney：
-> modern command line terminal interface with code and AI chat,
-> glowing AI assistant icon on dark background,
-> clean professional tech tutorial cover style,
-> minimalist, 16:9 aspect ratio, 4k --ar 16:9
-
----
-
 *数据来源：OpenCode官方文档、菜鸟教程、CSDN技术社区、腾讯云开发者社区*
