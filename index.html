@@ -1365,15 +1365,15 @@
             /* 终端 - 底部弹出面板 */
             .terminal-container {
                 position: fixed;
-                bottom: 0;
+                bottom: 130px; /* 为导航按钮和底部导航栏留空间 */
                 left: 0;
                 right: 0;
                 border-radius: var(--radius-lg) var(--radius-lg) 0 0;
                 z-index: 100;
-                max-height: 70vh;
+                max-height: 55vh;
                 display: flex;
                 flex-direction: column;
-                transform: translateY(calc(100% - 60px));
+                transform: translateY(calc(100% - 50px));
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
             }
@@ -1388,16 +1388,33 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                -webkit-tap-highlight-color: transparent;
+                user-select: none;
             }
 
-            .terminal-header::after {
-                content: '↑ 展开终端';
+            .terminal-header-text {
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+            }
+
+            .terminal-header-hint {
                 font-size: 11px;
                 color: #78716c;
+                transition: opacity 0.2s;
             }
 
-            .terminal-container.expanded .terminal-header::after {
-                content: '↓ 收起终端';
+            .terminal-container.expanded .terminal-header-hint {
+                opacity: 0;
+            }
+
+            .terminal-header-expand {
+                font-size: 11px;
+                color: var(--accent-primary);
+                font-weight: 500;
+                padding: 4px 8px;
+                background: rgba(5, 150, 105, 0.1);
+                border-radius: 4px;
             }
 
             .terminal-body {
@@ -1453,11 +1470,11 @@
             /* 导航按钮 - 底部固定 */
             .nav-buttons {
                 position: fixed;
-                bottom: 0;
+                bottom: 60px; /* 为底部导航栏留空间 */
                 left: 0;
                 right: 0;
                 padding: var(--space-md);
-                padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+                padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
                 background: var(--bg-primary);
                 border-top: 1px solid var(--border-light);
                 display: flex;
@@ -1477,11 +1494,11 @@
             .mobile-bottom-nav {
                 display: flex;
                 position: fixed;
-                bottom: 70px;
+                bottom: 0;
                 left: var(--space-md);
                 right: var(--space-md);
                 background: var(--bg-dark);
-                border-radius: var(--radius-lg);
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
                 padding: var(--space-xs);
                 gap: var(--space-xs);
                 z-index: 95;
@@ -2354,12 +2371,16 @@
             // Render terminal
             if (content.terminal) {
                 html += `
-                    <div class="terminal-container">
-                        <div class="terminal-header">
-                            <span class="terminal-dot red"></span>
-                            <span class="terminal-dot yellow"></span>
-                            <span class="terminal-dot green"></span>
-                            <span class="terminal-title">交互式终端</span>
+                    <div class="terminal-container" id="terminal-container">
+                        <div class="terminal-header" onclick="toggleMobileTerminal()">
+                            <div class="terminal-header-text">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                                <span class="terminal-title">交互式终端</span>
+                                <span class="terminal-header-hint">点击展开/收起</span>
+                            </div>
+                            <span class="terminal-header-expand">↑ 展开</span>
                         </div>
                         <div class="terminal-body" id="terminal-body">
                             <div class="terminal-line">
@@ -2639,15 +2660,22 @@
         }
 
         function toggleMobileTerminal() {
-            const terminal = document.querySelector('.terminal-container');
+            const terminal = document.getElementById('terminal-container');
             if (terminal) {
                 terminal.classList.toggle('expanded');
+                
+                // Update button text
+                const expandBtn = terminal.querySelector('.terminal-header-expand');
+                if (expandBtn) {
+                    expandBtn.textContent = terminal.classList.contains('expanded') ? '↓ 收起' : '↑ 展开';
+                }
                 
                 // Scroll to terminal when expanding
                 if (terminal.classList.contains('expanded')) {
                     setTimeout(() => {
-                        terminal.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
+                        const input = document.getElementById('terminal-input');
+                        if (input) input.focus();
+                    }, 300);
                 }
             }
         }
