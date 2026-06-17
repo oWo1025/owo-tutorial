@@ -20,6 +20,7 @@ Desktop.ini
 *.bak
 *.log
 *.bat
+*.png
 
 # Node.js（如果未来添加）
 node_modules/
