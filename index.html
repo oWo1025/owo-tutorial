@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenCode 新手教程 - 交互式安装指南</title>
+    <meta name="description" content="从零开始学习 OpenCode AI 编程助手，包含详细的安装步骤、配置指南和使用技巧。">
+    
+    <!-- Geist Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    
     <style>
         * {
             margin: 0;
@@ -12,302 +22,385 @@
         }
 
         :root {
-            --primary: #07c160;
-            --primary-dark: #06a855;
-            --yellow: #fbbf24;
-            --orange: #f97316;
-            --blue: #3b82f6;
-            --green: #10b981;
-            --purple: #8b5cf6;
-            --bg: #f8fafc;
-            --bg-card: #ffffff;
-            --bg-subtle: #f1f5f9;
-            --fg: #0f172a;
-            --fg-muted: #64748b;
-            --fg-meta: #94a3b8;
-            --border: #e2e8f0;
-            --border-soft: #f1f5f9;
-            --black: #0f172a;
-            --code-bg: #1e293b;
-            --code-text: #e2e8f0;
+            /* Color System - Refined palette */
+            --bg-primary: #fafaf9;
+            --bg-secondary: #f5f5f4;
+            --bg-tertiary: #e7e5e4;
+            --bg-dark: #1c1917;
+            --bg-dark-secondary: #292524;
+            
+            --text-primary: #1c1917;
+            --text-secondary: #57534e;
+            --text-tertiary: #a8a29e;
+            --text-inverse: #fafaf9;
+            
+            --accent-primary: #059669;
+            --accent-primary-hover: #047857;
+            --accent-primary-light: #d1fae5;
+            
+            --accent-warm: #d97706;
+            --accent-warm-light: #fef3c7;
+            
+            --border-light: #e7e5e4;
+            --border-medium: #d6d3d1;
+            --border-dark: #1c1917;
+            
+            /* Typography */
+            --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+            
+            /* Spacing */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            
+            /* Radius */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows - Tinted with warm tone */
+            --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.05);
+            --shadow-md: 0 4px 12px rgba(28, 25, 23, 0.08);
+            --shadow-lg: 0 8px 24px rgba(28, 25, 23, 0.12);
+            --shadow-xl: 0 16px 48px rgba(28, 25, 23, 0.16);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
-            background: var(--bg);
-            color: var(--fg);
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Skip Link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: var(--space-md);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--accent-primary);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            z-index: 1000;
+            transition: top var(--transition-fast);
+        }
+
+        .skip-link:focus {
+            top: var(--space-md);
         }
 
         /* Header */
         .header {
-            padding: 20px 24px;
-            border-bottom: 2px solid var(--black);
-            background: var(--bg-card);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: var(--space-md) var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+            background: rgba(250, 250, 249, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
-        .header-content {
-            max-width: 1720px;
+        .header-inner {
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+            gap: var(--space-lg);
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
         }
 
         .breadcrumb {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--space-sm);
             font-size: 13px;
-            color: var(--fg-muted);
-            font-weight: 600;
+            color: var(--text-tertiary);
+            font-weight: 500;
         }
 
         .breadcrumb a {
-            color: var(--fg-muted);
+            color: var(--text-tertiary);
             text-decoration: none;
+            transition: color var(--transition-fast);
         }
 
         .breadcrumb a:hover {
-            color: var(--fg);
+            color: var(--text-primary);
         }
 
-        .breadcrumb span {
-            color: var(--fg-meta);
+        .breadcrumb .separator {
+            color: var(--border-medium);
         }
 
         .header h1 {
-            font-size: clamp(24px, 4vw, 34px);
+            font-size: clamp(20px, 2.5vw, 28px);
             font-weight: 700;
-            color: var(--fg);
-            margin-top: 4px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: var(--space-lg);
         }
 
-        .progress-info {
+        .progress-wrapper {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: var(--space-md);
         }
 
         .progress-label {
             font-size: 13px;
-            font-weight: 700;
-            color: var(--fg);
+            font-weight: 600;
+            color: var(--text-secondary);
+            white-space: nowrap;
         }
 
-        .progress-bar-container {
-            width: 160px;
-            height: 10px;
-            background: var(--bg-subtle);
-            border: 2px solid var(--black);
-            border-radius: 4px;
+        .progress-bar {
+            width: 140px;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-full);
             overflow: hidden;
         }
 
-        .progress-bar-fill {
+        .progress-fill {
             height: 100%;
-            background: var(--yellow);
-            transition: width 0.5s ease;
+            background: var(--accent-primary);
+            border-radius: var(--radius-full);
+            transition: width var(--transition-normal);
         }
 
         .progress-count {
             font-size: 13px;
-            font-weight: 700;
-            color: var(--fg);
-            font-family: monospace;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-variant-numeric: tabular-nums;
         }
 
         /* Main Layout */
         .main-container {
-            max-width: 1720px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 16px;
+            padding: var(--space-lg);
             display: grid;
-            grid-template-columns: 280px 1fr 280px;
-            gap: 12px;
-            min-height: calc(100vh - 100px);
+            grid-template-columns: 260px 1fr 260px;
+            gap: var(--space-xl);
+            min-height: calc(100dvh - 80px);
         }
 
         /* Sidebar Navigation */
         .sidebar-nav {
-            background: var(--bg-card);
-            border: 2px solid var(--black);
-            border-radius: 12px;
-            padding: 16px;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            max-height: calc(100dvh - 120px);
             overflow-y: auto;
-            box-shadow: 3px 3px 0 0 var(--black);
+            padding-right: var(--space-sm);
         }
 
-        .sidebar-header {
+        .sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: var(--radius-full);
+        }
+
+        .nav-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--black);
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .sidebar-header .icon {
-            width: 6px;
-            height: 18px;
-            background: var(--yellow);
-            border: 1.5px solid var(--black);
+        .nav-header-icon {
+            width: 4px;
+            height: 16px;
+            background: var(--accent-warm);
+            border-radius: var(--radius-full);
         }
 
-        .sidebar-header h3 {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--fg);
-            flex: 1;
+        .nav-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .sidebar-header .count {
-            padding: 4px 8px;
+        .nav-header .count {
+            margin-left: auto;
             font-size: 12px;
-            font-weight: 800;
-            color: var(--fg);
-            background: var(--bg-subtle);
-            border: 2px solid var(--black);
-            border-radius: 4px;
-            font-family: monospace;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            font-variant-numeric: tabular-nums;
         }
 
         .nav-section {
-            margin-bottom: 16px;
+            margin-bottom: var(--space-lg);
         }
 
         .nav-section-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--fg-muted);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 8px 12px;
-            border-bottom: 1px dashed var(--border-soft);
-            border-left: 4px solid transparent;
+            letter-spacing: 0.08em;
+            padding: var(--space-sm) 0;
+            margin-bottom: var(--space-sm);
         }
 
         .nav-btn {
             width: 100%;
             text-align: left;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 2px solid transparent;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
             background: transparent;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.2s;
-            margin-bottom: 4px;
+            gap: var(--space-sm);
+            transition: all var(--transition-fast);
+            margin-bottom: 2px;
         }
 
         .nav-btn:hover {
-            background: var(--bg-subtle);
+            background: var(--bg-secondary);
+            border-color: var(--border-light);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.98);
         }
 
         .nav-btn.active {
-            background: var(--yellow);
-            border: 2px solid var(--black);
-            box-shadow: 2px 2px 0 0 var(--black);
+            background: var(--accent-primary-light);
+            border-color: var(--accent-primary);
         }
 
         .nav-btn.completed {
-            background: var(--green);
-            border: 2px solid var(--black);
+            background: var(--bg-secondary);
         }
 
         .nav-btn .step-num {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 800;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--black);
+            border: 1.5px solid var(--border-medium);
             flex-shrink: 0;
+            transition: all var(--transition-fast);
         }
 
         .nav-btn.active .step-num {
-            background: var(--yellow);
-            color: var(--black);
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
         }
 
         .nav-btn.completed .step-num {
-            background: var(--green);
-            color: var(--black);
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
         }
 
         .nav-btn:not(.active):not(.completed) .step-num {
-            background: var(--bg-card);
-            color: var(--fg-muted);
+            background: var(--bg-primary);
+            color: var(--text-tertiary);
         }
 
         .nav-btn .step-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--fg);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
             flex: 1;
+            line-height: 1.4;
         }
 
         .nav-btn:not(.active):not(.completed) .step-title {
-            color: var(--fg-muted);
+            color: var(--text-secondary);
         }
 
         /* Main Content */
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: var(--space-xl);
         }
 
         .content-card {
-            background: var(--bg-card);
-            border: 2px solid var(--black);
-            border-radius: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 3px 3px 0 0 var(--black);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            box-shadow: var(--shadow-sm);
         }
 
         .content-header {
-            padding: 16px 24px;
-            border-bottom: 2px solid var(--black);
-            background: var(--bg);
+            padding: var(--space-md) var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-secondary);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: var(--space-md);
         }
 
         .content-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            font-family: monospace;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-md);
+            font-family: var(--font-mono);
             font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            color: var(--black);
-            background: var(--yellow);
-            border: 2px solid var(--black);
-            border-radius: 6px;
+            color: var(--accent-primary);
+            background: var(--accent-primary-light);
+            border-radius: var(--radius-sm);
         }
 
         .content-badge::before {
@@ -315,12 +408,12 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: var(--black);
+            background: var(--accent-primary);
         }
 
         .content-meta {
             display: flex;
-            gap: 8px;
+            gap: var(--space-sm);
             flex-wrap: wrap;
         }
 
@@ -328,241 +421,274 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 5px 12px;
-            font-family: monospace;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--fg);
-            background: var(--bg);
-            border: 2px solid var(--black);
-            border-radius: 999px;
-            box-shadow: 2px 2px 0 0 var(--black);
+            padding: var(--space-xs) var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
         }
 
         .meta-tag .label {
-            opacity: 0.6;
-            font-weight: 600;
+            color: var(--text-tertiary);
         }
 
         .content-body {
-            flex: 1;
-            padding: 32px 40px;
+            padding: var(--space-2xl) var(--space-xl);
             overflow-y: auto;
-            background: var(--bg);
         }
 
         .content-title {
             display: flex;
             align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
         }
 
-        .content-title .bar {
-            width: 8px;
-            height: 36px;
-            background: var(--yellow);
-            border: 2px solid var(--black);
-            border-radius: 4px;
+        .content-title .accent-bar {
+            width: 4px;
+            height: 32px;
+            background: var(--accent-warm);
+            border-radius: var(--radius-full);
             flex-shrink: 0;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .content-title h2 {
             font-size: clamp(24px, 3vw, 32px);
             font-weight: 700;
-            color: var(--fg);
-            line-height: 1.2;
+            color: var(--text-primary);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
         }
 
         .content-desc {
             font-size: 16px;
-            line-height: 1.75;
-            color: var(--fg-muted);
-            margin-bottom: 32px;
-            max-width: 62ch;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2xl);
+            max-width: 65ch;
         }
 
-        /* Task List */
+        /* Task Section */
         .task-section {
-            margin-bottom: 32px;
+            margin-bottom: var(--space-2xl);
         }
 
         .task-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 16px;
+            margin-bottom: var(--space-lg);
         }
 
         .task-header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: var(--space-sm);
         }
 
         .task-header-left .bar {
-            width: 6px;
-            height: 18px;
-            background: var(--yellow);
-            border: 1.5px solid var(--black);
+            width: 4px;
+            height: 16px;
+            background: var(--accent-warm);
+            border-radius: var(--radius-full);
         }
 
         .task-header h3 {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--fg);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .task-count {
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 12px;
-            font-weight: 700;
-            color: var(--fg-meta);
+            font-weight: 500;
+            color: var(--text-tertiary);
         }
 
         .task-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--space-md);
         }
 
         .task-card {
-            padding: 16px;
-            background: var(--bg);
-            border: 2.5px solid var(--black);
-            border-radius: 12px;
-            box-shadow: 3px 3px 0 0 var(--black);
-            transition: all 0.2s;
+            padding: var(--space-lg);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-warm);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
         }
 
         .task-card:hover {
+            border-color: var(--border-medium);
+            box-shadow: var(--shadow-md);
             transform: translateY(-2px);
         }
 
-        .task-card.completed {
-            background: #d1fae5;
+        .task-card:hover::before {
+            opacity: 1;
         }
 
         .task-card-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-sm);
         }
 
         .task-num {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-family: monospace;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
             font-size: 11px;
-            font-weight: 800;
-            border: 2px solid var(--black);
+            font-weight: 700;
         }
 
-        .task-num.yellow { background: var(--yellow); color: var(--black); }
-        .task-num.orange { background: var(--orange); color: white; }
-        .task-num.green { background: var(--green); color: var(--black); }
-        .task-num.blue { background: var(--blue); color: white; }
+        .task-num.yellow { background: var(--accent-warm-light); color: var(--accent-warm); }
+        .task-num.green { background: var(--accent-primary-light); color: var(--accent-primary); }
+        .task-num.blue { background: #dbeafe; color: #2563eb; }
 
         .task-card h4 {
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--fg);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
         }
 
         .task-card p {
             font-size: 13px;
             line-height: 1.6;
-            color: var(--fg-muted);
-            padding-left: 44px;
+            color: var(--text-secondary);
+            padding-left: 48px;
         }
 
-        /* Step Content */
-        .step-content {
-            display: none;
-        }
-
-        .step-content.active {
-            display: block;
-        }
-
+        /* Step Items */
         .step-item {
-            margin-bottom: 24px;
+            margin-bottom: var(--space-xl);
         }
 
         .step-item-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
         }
 
         .step-item-num {
             width: 28px;
             height: 28px;
-            background: var(--primary);
+            background: var(--accent-primary);
             color: white;
-            border-radius: 50%;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             flex-shrink: 0;
         }
 
         .step-item-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            color: var(--fg);
+            color: var(--text-primary);
         }
 
         .step-item-content {
             padding-left: 40px;
         }
 
+        .step-item-content p {
+            margin-bottom: var(--space-md);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .step-item-content ul {
+            margin-bottom: var(--space-md);
+            padding-left: var(--space-lg);
+        }
+
+        .step-item-content li {
+            margin-bottom: var(--space-sm);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .step-item-content code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            padding: 2px 6px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+        }
+
         /* Code Block */
         .code-block {
             position: relative;
-            background: var(--code-bg);
-            border-radius: 12px;
-            margin: 12px 0;
+            background: var(--bg-dark);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
             overflow: hidden;
-            border: 2px solid var(--black);
         }
 
         .code-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 16px;
-            background: rgba(0,0,0,0.3);
-            font-size: 12px;
-            color: #94a3b8;
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-dark-secondary);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #a8a29e;
         }
 
         .code-content {
-            padding: 16px;
+            padding: var(--space-md);
             overflow-x: auto;
         }
 
         .code-content code {
-            font-family: "SF Mono", "Fira Code", Consolas, monospace;
-            font-size: 14px;
-            color: var(--code-text);
-            line-height: 1.6;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #e7e5e4;
+            line-height: 1.7;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
         .copy-btn {
             background: rgba(255,255,255,0.1);
             border: none;
-            color: #94a3b8;
-            padding: 6px 12px;
-            border-radius: 6px;
+            color: #a8a29e;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all var(--transition-fast);
         }
 
         .copy-btn:hover {
@@ -570,64 +696,78 @@
             color: white;
         }
 
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
         .copy-btn.copied {
-            background: var(--green);
+            background: var(--accent-primary);
             color: white;
         }
 
         /* Alert */
         .alert {
-            padding: 16px;
-            border-radius: 12px;
-            margin: 16px 0;
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
             display: flex;
-            gap: 12px;
+            gap: var(--space-md);
             align-items: flex-start;
         }
 
         .alert-icon {
-            font-size: 20px;
+            font-size: 18px;
             flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-content strong {
+            display: block;
+            margin-bottom: 4px;
+            color: inherit;
         }
 
         .alert-info {
-            background: #dbeafe;
+            background: #eff6ff;
             color: #1e40af;
-            border-left: 4px solid var(--blue);
+            border: 1px solid #bfdbfe;
         }
 
         .alert-success {
-            background: #d1fae5;
+            background: var(--accent-primary-light);
             color: #065f46;
-            border-left: 4px solid var(--green);
+            border: 1px solid #a7f3d0;
         }
 
         .alert-warning {
-            background: #fef3c7;
+            background: var(--accent-warm-light);
             color: #92400e;
-            border-left: 4px solid var(--orange);
+            border: 1px solid #fde68a;
         }
 
-        /* Interactive Terminal */
+        /* Terminal */
         .terminal-container {
-            background: var(--code-bg);
-            border-radius: 12px;
-            margin: 16px 0;
+            background: var(--bg-dark);
+            border-radius: var(--radius-md);
+            margin: var(--space-lg) 0;
             overflow: hidden;
-            border: 2px solid var(--black);
         }
 
         .terminal-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: rgba(0,0,0,0.3);
+            gap: 6px;
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-dark-secondary);
         }
 
         .terminal-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
 
@@ -636,191 +776,199 @@
         .terminal-dot.green { background: #22c55e; }
 
         .terminal-title {
-            margin-left: 8px;
-            font-size: 12px;
-            color: #94a3b8;
+            margin-left: var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #78716c;
         }
 
         .terminal-body {
-            padding: 16px;
-            font-family: "SF Mono", "Fira Code", Consolas, monospace;
-            font-size: 14px;
-            color: var(--code-text);
-            min-height: 150px;
+            padding: var(--space-md);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #e7e5e4;
+            min-height: 120px;
         }
 
         .terminal-line {
-            margin-bottom: 8px;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            gap: var(--space-sm);
         }
 
         .terminal-prompt {
-            color: var(--green);
+            color: var(--accent-primary);
+            user-select: none;
         }
 
         .terminal-cursor {
             display: inline-block;
             width: 8px;
-            height: 16px;
-            background: var(--green);
-            animation: blink 1s infinite;
-            vertical-align: middle;
+            height: 15px;
+            background: var(--accent-primary);
+            animation: blink 1s step-end infinite;
         }
 
         @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+            50% { opacity: 0; }
         }
 
         .terminal-output {
-            color: #94a3b8;
-            margin-top: 8px;
+            color: #a8a29e;
+            white-space: pre-wrap;
+            margin-top: var(--space-sm);
         }
 
-        .terminal-input-area {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .terminal-input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: var(--code-text);
-            font-family: inherit;
-            font-size: inherit;
-            outline: none;
+        .terminal-hint {
+            color: var(--accent-primary);
+            margin-top: var(--space-sm);
+            font-size: 12px;
         }
 
         .terminal-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--bg-dark-secondary);
             flex-wrap: wrap;
         }
 
         .terminal-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 2px solid var(--black);
-            font-size: 13px;
-            font-weight: 600;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-fast);
         }
 
-        .terminal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 2px 2px 0 0 var(--black);
+        .terminal-btn:active {
+            transform: scale(0.97);
         }
 
         .terminal-btn.primary {
-            background: var(--primary);
+            background: var(--accent-primary);
             color: white;
+        }
+
+        .terminal-btn.primary:hover {
+            background: var(--accent-primary-hover);
         }
 
         .terminal-btn.secondary {
-            background: var(--blue);
+            background: #3b82f6;
             color: white;
+        }
+
+        .terminal-btn.secondary:hover {
+            background: #2563eb;
         }
 
         .terminal-btn.warning {
-            background: var(--orange);
+            background: #78716c;
             color: white;
         }
 
-        .terminal-btn.success {
-            background: var(--green);
-            color: white;
+        .terminal-btn.warning:hover {
+            background: #57534e;
         }
 
         /* Right Sidebar */
         .sidebar-right {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: var(--space-md);
         }
 
         .sidebar-card {
-            background: var(--bg-card);
-            border: 2px solid var(--black);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 3px 3px 0 0 var(--black);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
         }
 
         .sidebar-card-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
         }
 
         .sidebar-card-header .bar {
-            width: 4px;
-            height: 18px;
-            border-radius: 2px;
+            width: 3px;
+            height: 14px;
+            border-radius: var(--radius-full);
         }
 
-        .sidebar-card-header .bar.orange { background: var(--orange); }
-        .sidebar-card-header .bar.blue { background: var(--blue); }
-        .sidebar-card-header .bar.green { background: var(--green); }
+        .sidebar-card-header .bar.orange { background: var(--accent-warm); }
+        .sidebar-card-header .bar.blue { background: #3b82f6; }
+        .sidebar-card-header .bar.green { background: var(--accent-primary); }
 
         .sidebar-card-header h3 {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--fg);
+            color: var(--text-primary);
         }
 
         .sidebar-card-header .count {
             margin-left: auto;
-            font-family: monospace;
-            font-size: 12px;
-            color: var(--fg-meta);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-tertiary);
         }
 
         .sidebar-card p {
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.7;
-            color: var(--fg-muted);
+            color: var(--text-secondary);
         }
 
         /* Tool Card */
         .tool-card {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--bg);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--border);
+            gap: var(--space-sm);
+            padding: var(--space-sm);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
             text-decoration: none;
-            transition: all 0.2s;
-            margin-bottom: 10px;
+            transition: all var(--transition-fast);
+            margin-bottom: var(--space-sm);
+        }
+
+        .tool-card:last-child {
+            margin-bottom: 0;
         }
 
         .tool-card:hover {
-            transform: translateY(-1px);
-            border-color: var(--primary);
+            border-color: var(--accent-primary);
+            background: var(--accent-primary-light);
         }
 
         .tool-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--bg-subtle);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: serif;
-            font-style: italic;
-            font-size: 22px;
-            font-weight: 500;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
             flex-shrink: 0;
+            border: 1px solid var(--border-light);
         }
 
-        .tool-icon.node { color: var(--orange); }
-        .tool-icon.opencode { color: var(--primary); }
+        .tool-icon.node { color: var(--accent-warm); }
+        .tool-icon.opencode { color: var(--accent-primary); }
 
         .tool-info {
             flex: 1;
@@ -828,82 +976,143 @@
         }
 
         .tool-name {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--fg);
-            margin-bottom: 2px;
+            color: var(--text-primary);
+            line-height: 1.3;
         }
 
         .tool-desc {
-            font-size: 12px;
-            color: var(--fg-meta);
+            font-size: 11px;
+            color: var(--text-tertiary);
+            line-height: 1.4;
         }
 
         .tool-link {
             flex-shrink: 0;
-            font-size: 13px;
-            color: var(--primary);
+            font-size: 11px;
+            color: var(--accent-primary);
             font-weight: 600;
+        }
+
+        /* Keyboard Shortcuts */
+        .shortcuts-list {
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        kbd {
+            display: inline-block;
+            padding: 1px 5px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 3px;
+            box-shadow: 0 1px 0 var(--border-medium);
         }
 
         /* Navigation Buttons */
         .nav-buttons {
             display: flex;
-            gap: 12px;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 2px solid var(--border);
+            gap: var(--space-md);
+            margin-top: var(--space-2xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-light);
         }
 
         .nav-btn-main {
             flex: 1;
-            padding: 14px 20px;
-            border-radius: 999px;
-            border: 2px solid var(--black);
-            font-size: 15px;
-            font-weight: 800;
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-medium);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-fast);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: var(--space-sm);
         }
 
-        .nav-btn-main:hover {
-            transform: translateY(-2px);
-            box-shadow: 4px 4px 0 0 var(--black);
+        .nav-btn-main:active {
+            transform: scale(0.98);
         }
 
         .nav-btn-main.prev {
-            background: var(--bg-card);
-            color: var(--fg);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .nav-btn-main.prev:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-medium);
         }
 
         .nav-btn-main.next {
-            background: var(--yellow);
-            color: var(--black);
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
         }
 
-        /* Footer */
+        .nav-btn-main.next:hover {
+            background: var(--accent-primary-hover);
+        }
+
+        /* Footer Hint */
         .footer-hint {
             text-align: center;
-            padding: 16px;
-            margin-top: 16px;
+            padding: var(--space-lg);
         }
 
         .footer-hint span {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--space-sm);
             font-size: 11px;
-            padding: 6px 14px;
-            font-family: monospace;
-            font-weight: 700;
-            color: var(--fg-muted);
-            background: var(--bg-subtle);
-            border: 2px solid var(--black);
-            border-radius: 999px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            background: var(--bg-secondary);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-light);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            bottom: var(--space-lg);
+            left: var(--space-lg);
+            right: var(--space-lg);
+            gap: var(--space-sm);
+            z-index: 1000;
+        }
+
+        .mobile-nav-toggle button {
+            flex: 1;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-medium);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mobile-nav-toggle .nav-list-btn {
+            background: var(--accent-warm);
+            color: white;
+        }
+
+        .mobile-nav-toggle .nav-tools-btn {
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
 
         /* Mobile Responsive */
@@ -912,10 +1121,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .sidebar-nav {
-                display: none;
-            }
-
+            .sidebar-nav,
             .sidebar-right {
                 display: none;
             }
@@ -923,16 +1129,35 @@
             .sidebar-nav.mobile-show,
             .sidebar-right.mobile-show {
                 display: flex;
+                position: fixed;
+                top: 80px;
+                bottom: 80px;
+                width: calc(100% - 32px);
+                z-index: 50;
+                overflow-y: auto;
+                background: var(--bg-primary);
+                border: 1px solid var(--border-light);
+                border-radius: var(--radius-lg);
+                padding: var(--space-lg);
+                box-shadow: var(--shadow-xl);
+            }
+
+            .sidebar-nav.mobile-show {
+                left: 16px;
+            }
+
+            .sidebar-right.mobile-show {
+                right: 16px;
             }
 
             .mobile-nav-toggle {
-                display: flex !important;
+                display: flex;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             .content-body {
-                padding: 20px;
+                padding: var(--space-lg);
             }
 
             .task-grid {
@@ -944,73 +1169,58 @@
             }
 
             .header h1 {
-                font-size: 20px;
+                font-size: 18px;
+            }
+
+            .content-title h2 {
+                font-size: 22px;
             }
         }
 
-        .mobile-nav-toggle {
-            display: none;
+        /* Focus States */
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        /* Noise Texture Overlay */
+        body::before {
+            content: '';
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            gap: 8px;
-            z-index: 1000;
-        }
-
-        .mobile-nav-toggle button {
-            flex: 1;
-            padding: 12px;
-            border-radius: 12px;
-            border: 2px solid var(--black);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 3px 3px 0 0 var(--black);
-        }
-
-        .mobile-nav-toggle .nav-list-btn {
-            background: var(--yellow);
-            color: var(--black);
-        }
-
-        .mobile-nav-toggle .nav-tools-btn {
-            background: var(--bg-card);
-            color: var(--fg);
-        }
-
-        /* Keyboard shortcut hint */
-        kbd {
-            display: inline-block;
-            padding: 2px 6px;
-            font-size: 11px;
-            font-family: monospace;
-            background: linear-gradient(180deg, #fff 0%, #e5e5e5 100%);
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-shadow: 0 1px 0 #bbb;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.015;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
     </style>
 </head>
 <body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div>
+        <div class="header-inner">
+            <div class="header-left">
                 <div class="breadcrumb">
                     <a href="#">OpenCode 教程</a>
-                    <span>/</span>
+                    <span class="separator">/</span>
                     <span id="current-section-name">安装与初次对话</span>
                 </div>
                 <h1>OpenCode 新手教程</h1>
             </div>
             <div class="header-right">
-                <div class="progress-info">
+                <div class="progress-wrapper">
                     <span class="progress-label">本章进度</span>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
                     </div>
-                    <span class="progress-count"><span id="current-step">0</span> / <span id="total-steps">12</span></span>
+                    <span class="progress-count"><span id="current-step">0</span> / <span id="total-steps">10</span></span>
                 </div>
             </div>
         </div>
@@ -1020,21 +1230,21 @@
     <div class="main-container">
         <!-- Left Sidebar: Step Navigation -->
         <aside class="sidebar-nav" id="sidebar-nav">
-            <div class="sidebar-header">
-                <div class="icon"></div>
+            <div class="nav-header">
+                <div class="nav-header-icon"></div>
                 <h3>步骤导航</h3>
-                <span class="count"><span id="nav-current">0</span> / <span id="nav-total">12</span></span>
+                <span class="count"><span id="nav-current">0</span> / <span id="nav-total">10</span></span>
             </div>
             <nav id="step-navigation">
-                <!-- Will be populated by JavaScript -->
+                <!-- Populated by JavaScript -->
             </nav>
         </aside>
 
         <!-- Main Content -->
-        <div class="main-content">
+        <main class="main-content" id="main-content">
             <div class="content-card">
                 <div class="content-header">
-                    <span class="content-badge" id="content-badge">Getting Started · 本节起点</span>
+                    <span class="content-badge" id="content-badge">Getting Started</span>
                     <div class="content-meta">
                         <span class="meta-tag"><span class="label">时长</span> <span id="meta-duration">约 15 分钟</span></span>
                         <span class="meta-tag"><span class="label">难度</span> <span id="meta-difficulty">入门</span></span>
@@ -1042,10 +1252,10 @@
                     </div>
                 </div>
                 <div class="content-body" id="content-body">
-                    <!-- Content will be populated by JavaScript -->
+                    <!-- Content populated by JavaScript -->
                 </div>
             </div>
-        </div>
+        </main>
 
         <!-- Right Sidebar: Tools & Info -->
         <aside class="sidebar-right" id="sidebar-right">
@@ -1062,21 +1272,21 @@
                     <h3>所需工具</h3>
                     <span class="count">2 项</span>
                 </div>
-                <a href="https://nodejs.org/" target="_blank" class="tool-card">
+                <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" class="tool-card">
                     <div class="tool-icon node">N</div>
                     <div class="tool-info">
                         <div class="tool-name">Node.js</div>
-                        <div class="tool-desc">JavaScript 运行时，OpenCode 的运行依赖</div>
+                        <div class="tool-desc">JavaScript 运行时</div>
                     </div>
                     <span class="tool-link">下载</span>
                 </a>
-                <a href="https://opencode.ai" target="_blank" class="tool-card">
+                <a href="https://opencode.ai" target="_blank" rel="noopener noreferrer" class="tool-card">
                     <div class="tool-icon opencode">O</div>
                     <div class="tool-info">
                         <div class="tool-name">OpenCode</div>
-                        <div class="tool-desc">开源 AI 编程助手</div>
+                        <div class="tool-desc">AI 编程助手</div>
                     </div>
-                    <span class="tool-link">下载</span>
+                    <span class="tool-link">官网</span>
                 </a>
             </div>
             <div class="sidebar-card">
@@ -1084,19 +1294,19 @@
                     <div class="bar green"></div>
                     <h3>快捷键</h3>
                 </div>
-                <p style="font-size: 13px; line-height: 1.8;">
+                <div class="shortcuts-list">
                     <kbd>Enter</kbd> 执行命令<br>
-                    输错不会卡住，可点「再试一次」重置<br>
-                    <kbd>Ctrl</kbd> + <kbd>C</kbd> 退出当前操作
-                </p>
+                    输错可点「再试一次」<br>
+                    <kbd>Ctrl</kbd>+<kbd>C</kbd> 退出操作
+                </div>
             </div>
         </aside>
     </div>
 
     <!-- Mobile Navigation Toggle -->
     <div class="mobile-nav-toggle">
-        <button class="nav-list-btn" onclick="toggleMobileNav('nav')">📋 步骤</button>
-        <button class="nav-tools-btn" onclick="toggleMobileNav('tools')">🔧 工具</button>
+        <button class="nav-list-btn" onclick="toggleMobileNav('nav')">步骤导航</button>
+        <button class="nav-tools-btn" onclick="toggleMobileNav('tools')">工具与提示</button>
     </div>
 
     <!-- Footer Hint -->
@@ -1117,39 +1327,34 @@
                             title: '安装 Node.js',
                             content: {
                                 title: '安装 Node.js',
-                                description: 'OpenCode 是基于 Node.js 开发的，所以需要先安装它。你可以把它理解为一个"运行环境"。',
+                                description: 'OpenCode 基于 Node.js 运行，需要先安装它。Node.js 是一个 JavaScript 运行环境，让 OpenCode 能够在你的电脑上工作。',
                                 tasks: [
                                     { num: '01', title: '下载安装包', desc: '访问 Node.js 官网下载 LTS 版本', color: 'yellow' },
-                                    { num: '02', title: '运行安装程序', desc: '双击安装包，一路点击 Next', color: 'orange' },
-                                    { num: '03', title: '验证安装', desc: '打开终端输入 node --version', color: 'green' }
+                                    { num: '02', title: '运行安装程序', desc: '按照向导完成安装', color: 'yellow' },
+                                    { num: '03', title: '验证安装', desc: '在终端检查版本号', color: 'green' }
                                 ],
                                 steps: [
                                     {
                                         title: '下载安装包',
                                         content: `
-                                            <p>打开浏览器，访问 <strong>https://nodejs.org/</strong></p>
-                                            <p>找到 <strong>"LTS"</strong> 版本（推荐），点击下载。</p>
-                                            <div class="alert alert-info">
-                                                <span class="alert-icon">💡</span>
-                                                <div><strong>什么是 LTS 版本？</strong><br>LTS 是 Long Term Support（长期支持）的缩写，是最稳定的版本，推荐新手使用。</div>
-                                            </div>
+                                            <p>打开浏览器，访问 <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer"><strong>nodejs.org</strong></a></p>
+                                            <p>找到 <strong>LTS</strong>（长期支持）版本，点击下载按钮。LTS 版本是最稳定的选择。</p>
                                         `
                                     },
                                     {
                                         title: '运行安装程序',
                                         content: `
                                             <ul>
-                                                <li>双击下载好的 <code>.msi</code>（Windows）或 <code>.pkg</code>（Mac）文件</li>
-                                                <li>一路点击 <kbd>Next</kbd>（下一步）</li>
-                                                <li>在 "Tools for Native Modules" 这一步，<strong>不要勾选</strong>任何选项</li>
-                                                <li>继续点击 <kbd>Next</kbd> 直到安装完成</li>
+                                                <li>双击下载好的安装文件（<code>.msi</code> 或 <code>.pkg</code>）</li>
+                                                <li>Windows 用户：一路点击 <kbd>Next</kbd>，在 "Tools for Native Modules" 步骤<strong>不要勾选</strong></li>
+                                                <li>Mac 用户：点击"继续"和"安装"，输入密码</li>
                                             </ul>
                                         `
                                     },
                                     {
                                         title: '验证安装',
                                         content: `
-                                            <p>打开终端（Windows 按 <kbd>Win</kbd> + <kbd>R</kbd> 输入 <code>cmd</code>），输入以下命令：</p>
+                                            <p>打开终端（Windows: <kbd>Win</kbd>+<kbd>R</kbd> 输入 <code>cmd</code>；Mac: 搜索"终端"），输入：</p>
                                             <div class="code-block">
                                                 <div class="code-header">
                                                     <span>终端</span>
@@ -1160,8 +1365,11 @@
                                                 </div>
                                             </div>
                                             <div class="alert alert-success">
-                                                <span class="alert-icon">✅</span>
-                                                <div>如果看到类似 <code>v20.11.0</code> 的版本号，说明安装成功！</div>
+                                                <span class="alert-icon">✓</span>
+                                                <div class="alert-content">
+                                                    <strong>安装成功</strong>
+                                                    看到类似 <code>v20.11.0</code> 的版本号即可。
+                                                </div>
                                             </div>
                                         `
                                     }
@@ -1169,7 +1377,7 @@
                                 terminal: {
                                     prompt: '$ ',
                                     commands: [
-                                        { cmd: 'node --version', output: 'v20.11.0', hint: '看到版本号说明安装成功' }
+                                        { cmd: 'node --version', output: 'v20.11.0', hint: '版本号显示说明 Node.js 已安装' }
                                     ]
                                 }
                             }
@@ -1178,17 +1386,17 @@
                             id: 2,
                             title: '验证 Node.js',
                             content: {
-                                title: '验证 Node.js 安装',
-                                description: '确认 Node.js 和 npm 都已正确安装。',
+                                title: '验证 Node.js 和 npm',
+                                description: '确认 Node.js 和 npm（包管理器）都已正确安装。',
                                 tasks: [
-                                    { num: '01', title: '检查 Node 版本', desc: '运行 node --version', color: 'yellow' },
-                                    { num: '02', title: '检查 npm 版本', desc: '运行 npm --version', color: 'orange' }
+                                    { num: '01', title: '检查 Node 版本', desc: '确认 Node.js 运行时', color: 'yellow' },
+                                    { num: '02', title: '检查 npm 版本', desc: '确认包管理器可用', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '检查 Node 和 npm 版本',
+                                        title: '检查版本',
                                         content: `
-                                            <p>在终端中依次输入以下命令：</p>
+                                            <p>在终端中依次运行以下命令：</p>
                                             <div class="code-block">
                                                 <div class="code-header">
                                                     <span>终端</span>
@@ -1218,11 +1426,11 @@
                                 description: '使用 npm 全局安装 OpenCode 命令行工具。',
                                 tasks: [
                                     { num: '01', title: '执行安装命令', desc: 'npm install -g opencode-ai', color: 'yellow' },
-                                    { num: '02', title: '等待安装完成', desc: '通常需要 30 秒到 1 分钟', color: 'orange' }
+                                    { num: '02', title: '等待安装完成', desc: '通常需要 30 秒', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '执行安装命令',
+                                        title: '执行安装',
                                         content: `
                                             <p>在终端中输入以下命令：</p>
                                             <div class="code-block">
@@ -1235,20 +1443,18 @@
                                                 </div>
                                             </div>
                                             <div class="alert alert-info">
-                                                <span class="alert-icon">📋</span>
-                                                <div>
-                                                    <strong>如何复制粘贴？</strong><br>
-                                                    • 复制：选中命令文本，按 <kbd>Ctrl</kbd> + <kbd>C</kbd><br>
-                                                    • 粘贴：在终端中按 <kbd>鼠标右键</kbd><br>
-                                                    • 然后按回车执行
+                                                <span class="alert-icon">💡</span>
+                                                <div class="alert-content">
+                                                    <strong>复制粘贴提示</strong>
+                                                    选中命令后按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 复制，在终端按鼠标右键粘贴。
                                                 </div>
                                             </div>
                                         `
                                     },
                                     {
-                                        title: '等待安装完成',
+                                        title: '等待完成',
                                         content: `
-                                            <p>你会看到类似这样的输出：</p>
+                                            <p>安装完成后会看到类似输出：</p>
                                             <div class="code-block">
                                                 <div class="code-header">
                                                     <span>输出示例</span>
@@ -1272,16 +1478,16 @@
                             id: 4,
                             title: '验证安装',
                             content: {
-                                title: '验证 OpenCode 安装',
-                                description: '确认 OpenCode 已正确安装到系统中。',
+                                title: '验证 OpenCode',
+                                description: '确认 OpenCode 已正确安装。',
                                 tasks: [
                                     { num: '01', title: '检查版本号', desc: '运行 opencode --version', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '检查 OpenCode 版本',
+                                        title: '检查版本',
                                         content: `
-                                            <p>输入以下命令验证安装：</p>
+                                            <p>输入以下命令：</p>
                                             <div class="code-block">
                                                 <div class="code-header">
                                                     <span>终端</span>
@@ -1292,8 +1498,11 @@
                                                 </div>
                                             </div>
                                             <div class="alert alert-success">
-                                                <span class="alert-icon">✅</span>
-                                                <div>如果看到版本号（例如 <code>1.1.50</code>），说明安装成功！</div>
+                                                <span class="alert-icon">✓</span>
+                                                <div class="alert-content">
+                                                    <strong>安装成功</strong>
+                                                    看到版本号（如 <code>1.1.50</code>）即可继续。
+                                                </div>
                                             </div>
                                         `
                                     }
@@ -1301,7 +1510,7 @@
                                 terminal: {
                                     prompt: '$ ',
                                     commands: [
-                                        { cmd: 'opencode --version', output: '1.1.50', hint: '看到版本号说明安装成功' }
+                                        { cmd: 'opencode --version', output: '1.1.50', hint: '版本号显示说明安装成功' }
                                     ]
                                 }
                             }
@@ -1311,14 +1520,14 @@
                             title: '启动 OpenCode',
                             content: {
                                 title: '启动 OpenCode',
-                                description: '首次启动 OpenCode，进入交互界面。',
+                                description: '首次启动 OpenCode，选择免费模型开始使用。',
                                 tasks: [
                                     { num: '01', title: '启动程序', desc: '运行 opencode 命令', color: 'yellow' },
-                                    { num: '02', title: '选择模型', desc: '选择免费的 Zen 模型', color: 'orange' }
+                                    { num: '02', title: '选择模型', desc: '选择免费的 Zen 模型', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '启动 OpenCode',
+                                        title: '启动',
                                         content: `
                                             <p>在终端中输入：</p>
                                             <div class="code-block">
@@ -1333,14 +1542,14 @@
                                         `
                                     },
                                     {
-                                        title: '选择免费模型',
+                                        title: '选择模型',
                                         content: `
-                                            <p>启动后，你会看到选择模型的界面。</p>
+                                            <p>启动后会看到模型选择界面。</p>
                                             <div class="alert alert-success">
                                                 <span class="alert-icon">🎁</span>
-                                                <div>
-                                                    <strong>选择 "Zen" 或 "Free" 选项</strong><br>
-                                                    这是 OpenCode 团队提供的免费模型，无需任何付费即可使用！
+                                                <div class="alert-content">
+                                                    <strong>选择 Zen（免费）</strong>
+                                                    这是 OpenCode 提供的免费模型，无需付费即可使用。
                                                 </div>
                                             </div>
                                         `
@@ -1349,7 +1558,7 @@
                                 terminal: {
                                     prompt: '$ ',
                                     commands: [
-                                        { cmd: 'opencode', output: '🚀 OpenCode v1.1.50\n正在连接免费模型 (Zen)...\n✅ 连接成功！\n\n输入你的需求，开始编程...', hint: '看到连接成功就可以开始使用了' }
+                                        { cmd: 'opencode', output: '🚀 OpenCode v1.1.50\n正在连接免费模型 (Zen)...\n连接成功！\n\n输入你的需求，开始编程...', hint: '连接成功后即可开始使用' }
                                     ]
                                 }
                             }
@@ -1364,23 +1573,23 @@
                             id: 6,
                             title: '创建第一个文件',
                             content: {
-                                title: '用 OpenCode 创建文件',
-                                description: '让 AI 帮你创建一个简单的 Python 程序。',
+                                title: '用 AI 创建文件',
+                                description: '让 OpenCode 帮你创建一个简单的 Python 程序。',
                                 tasks: [
-                                    { num: '01', title: '描述需求', desc: '告诉 OpenCode 你想做什么', color: 'yellow' },
-                                    { num: '02', title: '确认执行', desc: '让 AI 创建文件', color: 'orange' }
+                                    { num: '01', title: '描述需求', desc: '告诉 AI 你想做什么', color: 'yellow' },
+                                    { num: '02', title: '确认创建', desc: '让 AI 生成文件', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '输入你的需求',
+                                        title: '输入需求',
                                         content: `
-                                            <p>在 OpenCode 界面中，直接输入：</p>
+                                            <p>在 OpenCode 界面中直接输入：</p>
                                             <div class="code-block">
                                                 <div class="code-header">
                                                     <span>输入</span>
                                                 </div>
                                                 <div class="code-content">
-                                                    <code>帮我创建一个 Python 文件，实现 Hello World 功能</code>
+                                                    <code>帮我创建一个 Python 文件，实现 Hello World</code>
                                                 </div>
                                             </div>
                                         `
@@ -1389,7 +1598,7 @@
                                 terminal: {
                                     prompt: '> ',
                                     commands: [
-                                        { cmd: '帮我创建一个 Python 文件，实现 Hello World 功能', output: '✅ 已创建文件 hello.py\n\n```python\nprint("Hello, World!")\n```\n\n文件已保存到当前目录。', hint: 'AI 会自动创建文件' }
+                                        { cmd: '帮我创建一个 Python 文件，实现 Hello World', output: '已创建文件 hello.py\n\n```python\nprint("Hello, World!")\n```\n\n文件已保存到当前目录。', hint: 'AI 会自动创建文件' }
                                     ]
                                 }
                             }
@@ -1398,16 +1607,16 @@
                             id: 7,
                             title: '查看文件内容',
                             content: {
-                                title: '查看文件内容',
+                                title: '查看文件',
                                 description: '让 AI 帮你查看当前目录的文件。',
                                 tasks: [
                                     { num: '01', title: '查看目录', desc: '列出当前目录的文件', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '查看当前目录',
+                                        title: '查看文件',
                                         content: `
-                                            <p>输入以下命令查看文件：</p>
+                                            <p>输入以下内容：</p>
                                             <div class="code-block">
                                                 <div class="code-header">
                                                     <span>输入</span>
@@ -1422,7 +1631,7 @@
                                 terminal: {
                                     prompt: '> ',
                                     commands: [
-                                        { cmd: '当前目录下有哪些文件？', output: '当前目录下的文件：\n\n📁 my-project/\n  📄 hello.py\n  📄 README.md', hint: 'AI 会列出当前目录的文件' }
+                                        { cmd: '当前目录下有哪些文件？', output: '当前目录下的文件：\n\n  hello.py\n  README.md', hint: 'AI 会列出当前目录的文件' }
                                     ]
                                 }
                             }
@@ -1446,7 +1655,7 @@
                                                     <span>输入</span>
                                                 </div>
                                                 <div class="code-content">
-                                                    <code>把这个 Python 文件改成输入用户名并打招呼</code>
+                                                    <code>把这个文件改成输入用户名并打招呼</code>
                                                 </div>
                                             </div>
                                         `
@@ -1455,7 +1664,7 @@
                                 terminal: {
                                     prompt: '> ',
                                     commands: [
-                                        { cmd: '把这个 Python 文件改成输入用户名并打招呼', output: '✅ 已修改 hello.py\n\n新内容：\n```python\nname = input("请输入你的名字：")\nprint(f"你好，{name}！欢迎使用 OpenCode！")\n```', hint: 'AI 会自动修改文件内容' }
+                                        { cmd: '把这个文件改成输入用户名并打招呼', output: '已修改 hello.py\n\n新内容：\n```python\nname = input("请输入你的名字：")\nprint(f"你好，{name}！")\n```', hint: 'AI 会自动修改文件' }
                                     ]
                                 }
                             }
@@ -1468,19 +1677,19 @@
                                 description: '掌握 OpenCode 的常用斜杠命令。',
                                 tasks: [
                                     { num: '01', title: '/help', desc: '查看帮助', color: 'yellow' },
-                                    { num: '02', title: '/models', desc: '切换模型', color: 'orange' },
-                                    { num: '03', title: '/clear', desc: '清空对话', color: 'green' }
+                                    { num: '02', title: '/models', desc: '切换模型', color: 'yellow' },
+                                    { num: '03', title: '/clear', desc: '清空对话', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
-                                        title: '常用命令列表',
+                                        title: '常用命令',
                                         content: `
                                             <p>OpenCode 支持以下常用命令：</p>
                                             <ul>
-                                                <li><code>/help</code> - 查看帮助信息</li>
-                                                <li><code>/models</code> - 切换 AI 模型</li>
-                                                <li><code>/clear</code> - 清空当前对话</li>
-                                                <li><code>/compact</code> - 压缩对话历史</li>
+                                                <li><code>/help</code> — 查看帮助信息</li>
+                                                <li><code>/models</code> — 切换 AI 模型</li>
+                                                <li><code>/clear</code> — 清空当前对话</li>
+                                                <li><code>/compact</code> — 压缩对话历史</li>
                                             </ul>
                                         `
                                     }
@@ -1488,8 +1697,8 @@
                                 terminal: {
                                     prompt: '> ',
                                     commands: [
-                                        { cmd: '/help', output: '可用命令：\n\n  /help    - 查看帮助\n  /models  - 切换模型\n  /clear   - 清空对话\n  /compact - 压缩历史' },
-                                        { cmd: '/models', output: '可用模型列表：\n\n  ● Zen (Free) - 免费模型 ✓ 当前使用\n  ○ Claude - 需要 API 密钥\n  ○ GPT - 需要 API 密钥', hint: '免费模型已经足够日常使用' }
+                                        { cmd: '/help', output: '可用命令：\n\n  /help    查看帮助\n  /models  切换模型\n  /clear   清空对话\n  /compact 压缩历史' },
+                                        { cmd: '/models', output: '可用模型：\n\n  Zen (Free) — 免费模型 当前使用\n  Claude — 需要 API 密钥\n  GPT — 需要 API 密钥', hint: '免费模型足够日常使用' }
                                     ]
                                 }
                             }
@@ -1501,9 +1710,9 @@
                                 title: '使用技巧',
                                 description: '掌握这些技巧，让 AI 更好地帮助你。',
                                 tasks: [
-                                    { num: '01', title: '描述清晰', desc: '告诉 AI 做什么，而不是怎么做', color: 'yellow' },
-                                    { num: '02', title: '分步骤', desc: '复杂任务拆分成小步骤', color: 'orange' },
-                                    { num: '03', title: '给上下文', desc: '告诉它项目用什么语言', color: 'green' }
+                                    { num: '01', title: '描述清晰', desc: '告诉 AI 做什么', color: 'yellow' },
+                                    { num: '02', title: '分步骤', desc: '复杂任务拆分成小步骤', color: 'yellow' },
+                                    { num: '03', title: '给上下文', desc: '告诉它项目用什么语言', color: 'yellow' }
                                 ],
                                 steps: [
                                     {
@@ -1511,24 +1720,24 @@
                                         content: `
                                             <div class="alert alert-info">
                                                 <span class="alert-icon">💡</span>
-                                                <div>
-                                                    <strong>描述要清晰</strong><br>
-                                                    ✅ "帮我创建一个 Python 爬虫，抓取网页标题"<br>
-                                                    ❌ "帮我写代码"
+                                                <div class="alert-content">
+                                                    <strong>描述要清晰</strong>
+                                                    好的示例："帮我创建一个 Python 爬虫，抓取网页标题"<br>
+                                                    不好的示例："帮我写代码"
                                                 </div>
                                             </div>
                                             <div class="alert alert-info">
                                                 <span class="alert-icon">💡</span>
-                                                <div>
-                                                    <strong>分步骤提问</strong><br>
+                                                <div class="alert-content">
+                                                    <strong>分步骤提问</strong>
                                                     复杂任务拆分成多个小步骤，每次只让 AI 做一件事。
                                                 </div>
                                             </div>
                                             <div class="alert alert-info">
                                                 <span class="alert-icon">💡</span>
-                                                <div>
-                                                    <strong>提供上下文</strong><br>
-                                                    告诉 AI 你的项目用什么语言、什么框架，它会更准确地帮助你。
+                                                <div class="alert-content">
+                                                    <strong>提供上下文</strong>
+                                                    告诉 AI 你的项目用什么语言、什么框架，它会更准确。
                                                 </div>
                                             </div>
                                         `
@@ -1549,8 +1758,8 @@
 
         // Initialize
         function init() {
-            renderNavigation();
             loadProgress();
+            renderNavigation();
             renderStep();
         }
 
@@ -1600,7 +1809,7 @@
 
             // Update header
             document.getElementById('current-section-name').textContent = section.title;
-            document.getElementById('content-badge').textContent = `${section.title} · 第 ${currentStep + 1} 步`;
+            document.getElementById('content-badge').textContent = `${section.title} · 步骤 ${currentStep + 1}`;
 
             // Update right sidebar
             document.getElementById('section-overview').textContent = content.description;
@@ -1609,7 +1818,7 @@
             const body = document.getElementById('content-body');
             let html = `
                 <div class="content-title">
-                    <div class="bar"></div>
+                    <div class="accent-bar"></div>
                     <h2>${content.title}</h2>
                 </div>
                 <p class="content-desc">${content.description}</p>
@@ -1620,7 +1829,7 @@
                             <div class="bar"></div>
                             <h3>本节任务</h3>
                         </div>
-                        <span class="task-count">共 ${content.tasks.length} 项</span>
+                        <span class="task-count">${content.tasks.length} 项</span>
                     </div>
                     <div class="task-grid">
                         ${content.tasks.map(task => `
@@ -1671,7 +1880,7 @@
                         <div class="terminal-actions">
                             ${content.terminal.commands.map((cmd, i) => `
                                 <button class="terminal-btn primary" onclick="runTerminalCommand(${i})">
-                                    运行: ${cmd.cmd.substring(0, 30)}${cmd.cmd.length > 30 ? '...' : ''}
+                                    运行: ${cmd.cmd.substring(0, 25)}${cmd.cmd.length > 25 ? '...' : ''}
                                 </button>
                             `).join('')}
                             <button class="terminal-btn warning" onclick="resetTerminal()">再试一次</button>
@@ -1687,7 +1896,7 @@
             html += `
                 <div class="nav-buttons">
                     ${globalIndex > 0 ? '<button class="nav-btn-main prev" onclick="prevStep()">← 上一步</button>' : ''}
-                    ${globalIndex < totalSteps - 1 ? '<button class="nav-btn-main next" onclick="nextStep()">下一步 →</button>' : '<button class="nav-btn-main next" onclick="completeTutorial()">🎉 完成教程</button>'}
+                    ${globalIndex < totalSteps - 1 ? '<button class="nav-btn-main next" onclick="nextStep()">下一步 →</button>' : '<button class="nav-btn-main next" onclick="completeTutorial()">完成教程</button>'}
                 </div>
             `;
 
@@ -1706,11 +1915,11 @@
                     <span class="terminal-prompt">${step.content.terminal.prompt}</span>
                     <span>${cmd.cmd}</span>
                 </div>
-                <div class="terminal-line" style="color: #94a3b8; white-space: pre-wrap;">${cmd.output}</div>
+                <div class="terminal-output">${cmd.output}</div>
             `;
 
             if (cmd.hint) {
-                output.innerHTML += `<div class="terminal-line" style="color: var(--green); margin-top: 8px;">💡 ${cmd.hint}</div>`;
+                output.innerHTML += `<div class="terminal-hint">${cmd.hint}</div>`;
             }
 
             // Mark step as completed
@@ -1781,7 +1990,7 @@
         }
 
         function completeTutorial() {
-            alert('🎉 恭喜你完成 OpenCode 新手教程！\n\n现在你已经掌握了 OpenCode 的基本使用方法，可以开始用 AI 辅助编程了！');
+            alert('恭喜你完成 OpenCode 新手教程！\n\n现在你可以开始用 AI 辅助编程了。');
         }
 
         // Copy Code
@@ -1829,7 +2038,7 @@
             }
         }
 
-        // Initialize on load
+        // Initialize
         init();
     </script>
 </body>
