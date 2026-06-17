@@ -1,0 +1,27 @@
+# 旧版文件（已被 index.html 替代）
+opencode-tutorial.html
+
+# 系统文件
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.bak
+*.log
+
+# Node.js（如果未来添加）
+node_modules/
+package-lock.json
+
+# Windows 批处理日志
+*.log
