@@ -788,17 +788,49 @@
             font-size: 13px;
             color: #e7e5e4;
             min-height: 120px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .terminal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: var(--bg-dark-secondary);
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: #57534e;
+            border-radius: 3px;
         }
 
         .terminal-line {
             margin-bottom: var(--space-sm);
             display: flex;
             gap: var(--space-sm);
+            align-items: center;
         }
 
         .terminal-prompt {
             color: var(--accent-primary);
             user-select: none;
+            flex-shrink: 0;
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #e7e5e4;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            outline: none;
+            caret-color: var(--accent-primary);
+        }
+
+        .terminal-input::placeholder {
+            color: #57534e;
         }
 
         .terminal-cursor {
@@ -823,15 +855,24 @@
             color: var(--accent-primary);
             margin-top: var(--space-sm);
             font-size: 12px;
+            padding: var(--space-sm);
+            background: rgba(5, 150, 105, 0.1);
+            border-radius: var(--radius-sm);
         }
 
         .terminal-actions {
             display: flex;
             gap: var(--space-sm);
-            margin-top: var(--space-md);
-            padding-top: var(--space-md);
+            padding: var(--space-md);
             border-top: 1px solid var(--bg-dark-secondary);
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .terminal-actions-label {
+            font-size: 11px;
+            color: #78716c;
+            margin-right: auto;
         }
 
         .terminal-btn {
@@ -1354,16 +1395,7 @@
                                     {
                                         title: '验证安装',
                                         content: `
-                                            <p>打开终端（Windows: <kbd>Win</kbd>+<kbd>R</kbd> 输入 <code>cmd</code>；Mac: 搜索"终端"），输入：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>终端</span>
-                                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>node --version</code>
-                                                </div>
-                                            </div>
+                                            <p>打开终端（Windows: <kbd>Win</kbd>+<kbd>R</kbd> 输入 <code>cmd</code>；Mac: 搜索"终端"），在下方终端输入命令验证。</p>
                                             <div class="alert alert-success">
                                                 <span class="alert-icon">✓</span>
                                                 <div class="alert-content">
@@ -1396,16 +1428,8 @@
                                     {
                                         title: '检查版本',
                                         content: `
-                                            <p>在终端中依次运行以下命令：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>终端</span>
-                                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>node --version<br>npm --version</code>
-                                                </div>
-                                            </div>
+                                            <p>在终端中依次运行以下命令进行验证：</p>
+                                            <p>先输入 <code>node --version</code>，再输入 <code>npm --version</code>。</p>
                                         `
                                     }
                                 ],
@@ -1432,21 +1456,12 @@
                                     {
                                         title: '执行安装',
                                         content: `
-                                            <p>在终端中输入以下命令：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>终端</span>
-                                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>npm install -g opencode-ai</code>
-                                                </div>
-                                            </div>
+                                            <p>在终端中输入安装命令。你可以直接在下方终端输入，或点击下方按钮自动填入。</p>
                                             <div class="alert alert-info">
                                                 <span class="alert-icon">💡</span>
                                                 <div class="alert-content">
                                                     <strong>复制粘贴提示</strong>
-                                                    选中命令后按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 复制，在终端按鼠标右键粘贴。
+                                                    你也可以选中命令后按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 复制，在终端按鼠标右键粘贴。
                                                 </div>
                                             </div>
                                         `
@@ -1454,15 +1469,7 @@
                                     {
                                         title: '等待完成',
                                         content: `
-                                            <p>安装完成后会看到类似输出：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>输出示例</span>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>added 1 package in 15s</code>
-                                                </div>
-                                            </div>
+                                            <p>安装完成后会看到类似 <code>added 1 package in 15s</code> 的输出。</p>
                                         `
                                     }
                                 ],
@@ -1487,16 +1494,7 @@
                                     {
                                         title: '检查版本',
                                         content: `
-                                            <p>输入以下命令：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>终端</span>
-                                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>opencode --version</code>
-                                                </div>
-                                            </div>
+                                            <p>在下方终端输入命令验证 OpenCode 是否安装成功。</p>
                                             <div class="alert alert-success">
                                                 <span class="alert-icon">✓</span>
                                                 <div class="alert-content">
@@ -1529,16 +1527,7 @@
                                     {
                                         title: '启动',
                                         content: `
-                                            <p>在终端中输入：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>终端</span>
-                                                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>opencode</code>
-                                                </div>
-                                            </div>
+                                            <p>在下方终端输入 <code>opencode</code> 命令启动程序。</p>
                                         `
                                     },
                                     {
@@ -1583,15 +1572,7 @@
                                     {
                                         title: '输入需求',
                                         content: `
-                                            <p>在 OpenCode 界面中直接输入：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>输入</span>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>帮我创建一个 Python 文件，实现 Hello World</code>
-                                                </div>
-                                            </div>
+                                            <p>在下方终端输入你的需求，让 AI 帮你创建文件。</p>
                                         `
                                     }
                                 ],
@@ -1616,15 +1597,7 @@
                                     {
                                         title: '查看文件',
                                         content: `
-                                            <p>输入以下内容：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>输入</span>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>当前目录下有哪些文件？</code>
-                                                </div>
-                                            </div>
+                                            <p>在下方终端输入查看文件的命令。</p>
                                         `
                                     }
                                 ],
@@ -1649,15 +1622,7 @@
                                     {
                                         title: '修改代码',
                                         content: `
-                                            <p>输入你的修改需求：</p>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <span>输入</span>
-                                                </div>
-                                                <div class="code-content">
-                                                    <code>把这个文件改成输入用户名并打招呼</code>
-                                                </div>
-                                            </div>
+                                            <p>在下方终端描述你想做的修改。</p>
                                         `
                                     }
                                 ],
@@ -1873,17 +1838,25 @@
                         <div class="terminal-body" id="terminal-body">
                             <div class="terminal-line">
                                 <span class="terminal-prompt">${content.terminal.prompt}</span>
-                                <span class="terminal-cursor"></span>
+                                <input type="text" class="terminal-input" id="terminal-input" 
+                                       placeholder="输入命令后按 Enter 执行..." 
+                                       onkeydown="handleTerminalInput(event)" 
+                                       autocomplete="off" 
+                                       spellcheck="false">
                             </div>
                             <div class="terminal-output" id="terminal-output"></div>
                         </div>
                         <div class="terminal-actions">
+                            <span class="terminal-actions-label">快捷命令：</span>
                             ${content.terminal.commands.map((cmd, i) => `
                                 <button class="terminal-btn primary" onclick="runTerminalCommand(${i})">
-                                    运行: ${cmd.cmd.substring(0, 25)}${cmd.cmd.length > 25 ? '...' : ''}
+                                    ▶ ${cmd.cmd.substring(0, 20)}${cmd.cmd.length > 20 ? '...' : ''}
+                                </button>
+                                <button class="terminal-btn secondary" onclick="copyTerminalCommand(${i})" title="复制命令">
+                                    📋 复制
                                 </button>
                             `).join('')}
-                            <button class="terminal-btn warning" onclick="resetTerminal()">再试一次</button>
+                            <button class="terminal-btn warning" onclick="resetTerminal()">↻ 重置</button>
                         </div>
                     </div>
                 `;
@@ -1919,8 +1892,12 @@
             `;
 
             if (cmd.hint) {
-                output.innerHTML += `<div class="terminal-hint">${cmd.hint}</div>`;
+                output.innerHTML += `<div class="terminal-hint">💡 ${cmd.hint}</div>`;
             }
+
+            // Scroll to bottom
+            const terminalBody = document.getElementById('terminal-body');
+            terminalBody.scrollTop = terminalBody.scrollHeight;
 
             // Mark step as completed
             completedSteps.add(step.id);
@@ -1928,11 +1905,82 @@
             renderNavigation();
         }
 
+        function handleTerminalInput(event) {
+            if (event.key === 'Enter') {
+                const input = event.target;
+                const value = input.value.trim();
+                
+                if (!value) return;
+
+                const section = tutorialData.sections[currentSection];
+                const step = section.steps[currentStep];
+                const terminal = step.content.terminal;
+
+                // Find matching command
+                const matchingCmd = terminal.commands.find(cmd => 
+                    cmd.cmd.toLowerCase() === value.toLowerCase()
+                );
+
+                const output = document.getElementById('terminal-output');
+                
+                if (matchingCmd) {
+                    output.innerHTML += `
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">${terminal.prompt}</span>
+                            <span>${value}</span>
+                        </div>
+                        <div class="terminal-output">${matchingCmd.output}</div>
+                    `;
+
+                    if (matchingCmd.hint) {
+                        output.innerHTML += `<div class="terminal-hint">💡 ${matchingCmd.hint}</div>`;
+                    }
+
+                    // Mark step as completed
+                    completedSteps.add(step.id);
+                    saveProgress();
+                    renderNavigation();
+                } else {
+                    output.innerHTML += `
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">${terminal.prompt}</span>
+                            <span>${value}</span>
+                        </div>
+                        <div class="terminal-output" style="color: #ef4444;">命令未识别。点击下方按钮执行正确的命令，或点击「再试一次」重置。</div>
+                    `;
+                }
+
+                // Clear input and scroll
+                input.value = '';
+                const terminalBody = document.getElementById('terminal-body');
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+        }
+
+        function copyTerminalCommand(index) {
+            const section = tutorialData.sections[currentSection];
+            const step = section.steps[currentStep];
+            const cmd = step.content.terminal.commands[index];
+
+            navigator.clipboard.writeText(cmd.cmd).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '已复制';
+                btn.style.background = 'var(--accent-primary)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 1500);
+            });
+        }
+
         function resetTerminal() {
             const output = document.getElementById('terminal-output');
             if (output) {
                 output.innerHTML = '';
             }
+            // Re-render step to reset input
+            renderStep();
         }
 
         // Navigation Functions
