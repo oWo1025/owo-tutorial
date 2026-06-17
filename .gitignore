@@ -18,6 +18,7 @@ Desktop.ini
 *.tmp
 *.bak
 *.log
+*.bat
 
 # Node.js（如果未来添加）
 node_modules/
