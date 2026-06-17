@@ -1156,7 +1156,11 @@
             color: var(--text-primary);
         }
 
-        /* Mobile Responsive */
+        /* ============================================
+           MOBILE RESPONSIVE - 方案二：手机端独立设计
+           ============================================ */
+        
+        /* 平板端 (768px - 1200px) */
         @media (max-width: 1200px) {
             .main-container {
                 grid-template-columns: 1fr;
@@ -1196,25 +1200,490 @@
             }
         }
 
-        @media (max-width: 640px) {
-            .content-body {
-                padding: var(--space-lg);
+        /* 手机端 (< 768px) - 完全重新设计 */
+        @media (max-width: 768px) {
+            /* 隐藏桌面端元素 */
+            .sidebar-nav,
+            .sidebar-right,
+            .mobile-nav-toggle,
+            .footer-hint {
+                display: none !important;
             }
 
-            .task-grid {
-                grid-template-columns: 1fr;
+            /* 优化头部 */
+            .header {
+                padding: var(--space-sm) var(--space-md);
             }
 
-            .nav-buttons {
+            .header-inner {
                 flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
             }
 
             .header h1 {
-                font-size: 18px;
+                font-size: 20px;
+            }
+
+            .breadcrumb {
+                font-size: 12px;
+            }
+
+            .progress-wrapper {
+                width: 100%;
+            }
+
+            .progress-bar {
+                flex: 1;
+            }
+
+            /* 主容器 */
+            .main-container {
+                padding: var(--space-md);
+                padding-bottom: 100px; /* 为底部导航留空间 */
+                gap: var(--space-md);
+            }
+
+            /* 内容卡片 */
+            .content-card {
+                border-radius: var(--radius-md);
+            }
+
+            .content-header {
+                padding: var(--space-sm) var(--space-md);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+
+            .content-badge {
+                font-size: 10px;
+                padding: 2px var(--space-sm);
+            }
+
+            .content-meta {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .meta-tag {
+                font-size: 10px;
+                padding: 2px var(--space-xs);
+            }
+
+            .content-body {
+                padding: var(--space-md);
+            }
+
+            .content-title {
+                gap: var(--space-sm);
+                margin-bottom: var(--space-md);
+            }
+
+            .content-title .accent-bar {
+                height: 24px;
+                margin-top: 4px;
             }
 
             .content-title h2 {
                 font-size: 22px;
+                letter-spacing: -0.01em;
+            }
+
+            .content-desc {
+                font-size: 14px;
+                line-height: 1.6;
+                margin-bottom: var(--space-lg);
+            }
+
+            /* 任务卡片 - 单栏 */
+            .task-section {
+                margin-bottom: var(--space-lg);
+            }
+
+            .task-header {
+                margin-bottom: var(--space-md);
+            }
+
+            .task-header h3 {
+                font-size: 13px;
+            }
+
+            .task-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+
+            .task-card {
+                padding: var(--space-md);
+                border-radius: var(--radius-sm);
+            }
+
+            .task-card h4 {
+                font-size: 13px;
+            }
+
+            .task-card p {
+                font-size: 12px;
+                padding-left: 40px;
+            }
+
+            .task-num {
+                padding: 2px 6px;
+                font-size: 10px;
+            }
+
+            /* 步骤内容 */
+            .step-item {
+                margin-bottom: var(--space-md);
+            }
+
+            .step-item-header {
+                gap: var(--space-xs);
+                margin-bottom: var(--space-sm);
+            }
+
+            .step-item-num {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+
+            .step-item-title {
+                font-size: 14px;
+            }
+
+            .step-item-content {
+                padding-left: 32px;
+            }
+
+            .step-item-content p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            /* 终端 - 底部弹出面板 */
+            .terminal-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+                z-index: 100;
+                max-height: 70vh;
+                display: flex;
+                flex-direction: column;
+                transform: translateY(calc(100% - 60px));
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            }
+
+            .terminal-container.expanded {
+                transform: translateY(0);
+            }
+
+            .terminal-header {
+                padding: var(--space-sm) var(--space-md);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .terminal-header::after {
+                content: '↑ 展开终端';
+                font-size: 11px;
+                color: #78716c;
+            }
+
+            .terminal-container.expanded .terminal-header::after {
+                content: '↓ 收起终端';
+            }
+
+            .terminal-body {
+                flex: 1;
+                overflow-y: auto;
+                padding: var(--space-md);
+                min-height: 150px;
+                max-height: calc(70vh - 120px);
+            }
+
+            .terminal-input {
+                font-size: 16px; /* 防止iOS缩放 */
+            }
+
+            .terminal-actions {
+                padding: var(--space-sm) var(--space-md);
+                padding-bottom: env(safe-area-inset-bottom, var(--space-sm));
+                gap: var(--space-xs);
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .terminal-actions-label {
+                display: none;
+            }
+
+            .terminal-btn {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 12px;
+                white-space: nowrap;
+                min-height: 44px; /* iOS触摸标准 */
+                flex-shrink: 0;
+            }
+
+            /* Alert 样式 */
+            .alert {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 13px;
+                border-radius: var(--radius-sm);
+            }
+
+            .alert-icon {
+                font-size: 16px;
+            }
+
+            /* Code 样式 */
+            .step-item-content code {
+                font-size: 12px;
+                padding: 1px 4px;
+            }
+
+            /* 导航按钮 - 底部固定 */
+            .nav-buttons {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: var(--space-md);
+                padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+                background: var(--bg-primary);
+                border-top: 1px solid var(--border-light);
+                display: flex;
+                gap: var(--space-sm);
+                z-index: 90;
+            }
+
+            .nav-btn-main {
+                padding: var(--space-md);
+                font-size: 14px;
+                font-weight: 600;
+                min-height: 48px;
+                border-radius: var(--radius-md);
+            }
+
+            /* 手机端底部导航栏 */
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 70px;
+                left: var(--space-md);
+                right: var(--space-md);
+                background: var(--bg-dark);
+                border-radius: var(--radius-lg);
+                padding: var(--space-xs);
+                gap: var(--space-xs);
+                z-index: 95;
+                box-shadow: var(--shadow-xl);
+            }
+
+            .mobile-bottom-nav button {
+                flex: 1;
+                padding: var(--space-sm) var(--space-xs);
+                border: none;
+                border-radius: var(--radius-md);
+                font-family: var(--font-sans);
+                font-size: 11px;
+                font-weight: 500;
+                cursor: pointer;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+                min-height: 44px;
+                transition: all var(--transition-fast);
+            }
+
+            .mobile-bottom-nav button:active {
+                transform: scale(0.95);
+            }
+
+            .mobile-bottom-nav .nav-steps-btn {
+                background: var(--accent-warm);
+                color: white;
+            }
+
+            .mobile-bottom-nav .nav-terminal-btn {
+                background: var(--accent-primary);
+                color: white;
+            }
+
+            .mobile-bottom-nav .nav-tips-btn {
+                background: rgba(255,255,255,0.1);
+                color: #a8a29e;
+            }
+
+            .mobile-bottom-nav .nav-icon {
+                font-size: 16px;
+            }
+
+            /* 手机端步骤导航面板 */
+            .mobile-steps-panel {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 200;
+            }
+
+            .mobile-steps-panel.show {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+            }
+
+            .mobile-steps-content {
+                background: var(--bg-primary);
+                border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+                padding: var(--space-lg);
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .mobile-steps-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--space-md);
+                padding-bottom: var(--space-md);
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .mobile-steps-header h3 {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .mobile-steps-close {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                border: none;
+                background: var(--bg-secondary);
+                font-size: 18px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-step-item {
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                padding: var(--space-md);
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                transition: all var(--transition-fast);
+                min-height: 56px;
+            }
+
+            .mobile-step-item:active {
+                background: var(--bg-secondary);
+            }
+
+            .mobile-step-item.active {
+                background: var(--accent-primary-light);
+                border: 1px solid var(--accent-primary);
+            }
+
+            .mobile-step-item.completed {
+                opacity: 0.7;
+            }
+
+            .mobile-step-num {
+                width: 28px;
+                height: 28px;
+                border-radius: var(--radius-sm);
+                background: var(--bg-secondary);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                flex-shrink: 0;
+            }
+
+            .mobile-step-item.active .mobile-step-num {
+                background: var(--accent-primary);
+                color: white;
+            }
+
+            .mobile-step-item.completed .mobile-step-num {
+                background: var(--accent-primary);
+                color: white;
+            }
+
+            .mobile-step-title {
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            /* 手机端提示面板 */
+            .mobile-tips-panel {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 200;
+            }
+
+            .mobile-tips-panel.show {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+            }
+
+            .mobile-tips-content {
+                background: var(--bg-primary);
+                border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+                padding: var(--space-lg);
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+
+            /* 适配 iPhone 底部安全区域 */
+            @supports (padding-bottom: env(safe-area-inset-bottom)) {
+                .nav-buttons {
+                    padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom));
+                }
+                
+                .mobile-bottom-nav {
+                    bottom: calc(70px + env(safe-area-inset-bottom));
+                }
+            }
+        }
+
+        /* 小屏手机 (< 375px) */
+        @media (max-width: 375px) {
+            .content-title h2 {
+                font-size: 18px;
+            }
+
+            .content-desc {
+                font-size: 13px;
+            }
+
+            .terminal-btn {
+                font-size: 11px;
+                padding: var(--space-xs) var(--space-sm);
             }
         }
 
@@ -1344,13 +1813,70 @@
         </aside>
     </div>
 
-    <!-- Mobile Navigation Toggle -->
+    <!-- Mobile Navigation Toggle (Tablet) -->
     <div class="mobile-nav-toggle">
         <button class="nav-list-btn" onclick="toggleMobileNav('nav')">步骤导航</button>
         <button class="nav-tools-btn" onclick="toggleMobileNav('tools')">工具与提示</button>
     </div>
 
-    <!-- Footer Hint -->
+    <!-- Mobile Bottom Navigation (Phone) -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+        <button class="nav-steps-btn" onclick="showMobileStepsPanel()">
+            <span class="nav-icon">📋</span>
+            步骤
+        </button>
+        <button class="nav-terminal-btn" onclick="toggleMobileTerminal()">
+            <span class="nav-icon">💻</span>
+            终端
+        </button>
+        <button class="nav-tips-btn" onclick="showMobileTipsPanel()">
+            <span class="nav-icon">💡</span>
+            提示
+        </button>
+    </nav>
+
+    <!-- Mobile Steps Panel -->
+    <div class="mobile-steps-panel" id="mobile-steps-panel" onclick="hideMobileStepsPanel(event)">
+        <div class="mobile-steps-content">
+            <div class="mobile-steps-header">
+                <h3>步骤导航</h3>
+                <button class="mobile-steps-close" onclick="hideMobileStepsPanel()">×</button>
+            </div>
+            <div id="mobile-steps-list">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Tips Panel -->
+    <div class="mobile-tips-panel" id="mobile-tips-panel" onclick="hideMobileTipsPanel(event)">
+        <div class="mobile-tips-content">
+            <div class="mobile-steps-header">
+                <h3>使用提示</h3>
+                <button class="mobile-steps-close" onclick="hideMobileTipsPanel()">×</button>
+            </div>
+            <div class="mobile-tips-list">
+                <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">
+                    <strong>⌨️ 键盘操作</strong>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">在终端输入命令后按 Enter 执行</p>
+                </div>
+                <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">
+                    <strong>📋 快捷命令</strong>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">点击终端下方按钮快速填入命令</p>
+                </div>
+                <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px; margin-bottom: 12px;">
+                    <strong>🔄 重置</strong>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">输错可点「重置」按钮清空终端</p>
+                </div>
+                <div style="padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
+                    <strong>📱 手势操作</strong>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">点击「步骤」查看所有步骤，点击切换</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Hint (Desktop only) -->
     <div class="footer-hint">
         <span>⌨ Enter 执行 · 输错不会卡住，可点「再试一次」重置当前步骤</span>
     </div>
@@ -2056,7 +2582,7 @@
             });
         }
 
-        // Mobile Navigation
+        // Mobile Navigation (Tablet)
         function toggleMobileNav(type) {
             if (type === 'nav') {
                 document.getElementById('sidebar-nav').classList.toggle('mobile-show');
@@ -2064,6 +2590,80 @@
             } else {
                 document.getElementById('sidebar-right').classList.toggle('mobile-show');
                 document.getElementById('sidebar-nav').classList.remove('mobile-show');
+            }
+        }
+
+        // Mobile Phone Functions
+        function showMobileStepsPanel() {
+            const panel = document.getElementById('mobile-steps-panel');
+            const list = document.getElementById('mobile-steps-list');
+            
+            // Populate steps list
+            let html = '';
+            let stepIndex = 0;
+            
+            tutorialData.sections.forEach((section, sIndex) => {
+                html += `<div style="font-size: 12px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; margin-top: 12px;">${section.title}</div>`;
+                
+                section.steps.forEach((step, stIndex) => {
+                    const isActive = sIndex === currentSection && stIndex === currentStep;
+                    const isCompleted = completedSteps.has(step.id);
+                    
+                    html += `
+                        <div class="mobile-step-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" 
+                             onclick="goToStep(${sIndex}, ${stIndex}); hideMobileStepsPanel();">
+                            <span class="mobile-step-num">${isCompleted ? '✓' : step.id}</span>
+                            <span class="mobile-step-title">${step.title}</span>
+                        </div>
+                    `;
+                    stepIndex++;
+                });
+            });
+            
+            list.innerHTML = html;
+            panel.classList.add('show');
+        }
+
+        function hideMobileStepsPanel(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('mobile-steps-panel').classList.remove('show');
+        }
+
+        function showMobileTipsPanel() {
+            document.getElementById('mobile-tips-panel').classList.add('show');
+        }
+
+        function hideMobileTipsPanel(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('mobile-tips-panel').classList.remove('show');
+        }
+
+        function toggleMobileTerminal() {
+            const terminal = document.querySelector('.terminal-container');
+            if (terminal) {
+                terminal.classList.toggle('expanded');
+                
+                // Scroll to terminal when expanding
+                if (terminal.classList.contains('expanded')) {
+                    setTimeout(() => {
+                        terminal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            }
+        }
+
+        // Check if mobile device
+        function isMobileDevice() {
+            return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Auto-expand terminal on mobile when step changes
+        function onMobileStepChange() {
+            if (isMobileDevice()) {
+                const terminal = document.querySelector('.terminal-container');
+                if (terminal && terminal.classList.contains('expanded')) {
+                    // Keep expanded state
+                }
             }
         }
 
