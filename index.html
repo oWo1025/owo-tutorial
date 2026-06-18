@@ -2426,27 +2426,48 @@
         }
 
         // Terminal Functions
-        function runTerminalCommand(index) {
+        async function runTerminalCommand(index) {
             const section = tutorialData.sections[currentSection];
             const step = section.steps[currentStep];
             const cmd = step.content.terminal.commands[index];
 
             const output = document.getElementById('terminal-output');
+            
+            // 显示命令行
             output.innerHTML += `
                 <div class="terminal-line">
                     <span class="terminal-prompt">${step.content.terminal.prompt}</span>
                     <span>${cmd.cmd}</span>
                 </div>
-                <div class="terminal-output">${cmd.output}</div>
             `;
-
-            if (cmd.hint) {
-                output.innerHTML += `<div class="terminal-hint">💡 ${cmd.hint}</div>`;
-            }
-
-            // Scroll to bottom
+            
+            // 滚动到底部
             const terminalBody = document.getElementById('terminal-body');
             terminalBody.scrollTop = terminalBody.scrollHeight;
+            
+            // 模拟命令执行延迟
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // 逐行显示输出
+            const outputLines = cmd.output.split('\n');
+            for (let i = 0; i < outputLines.length; i++) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'terminal-output';
+                lineDiv.textContent = outputLines[i];
+                output.appendChild(lineDiv);
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+                await new Promise(resolve => setTimeout(resolve, 80));
+            }
+            
+            // 显示提示
+            if (cmd.hint) {
+                await new Promise(resolve => setTimeout(resolve, 200));
+                const hintDiv = document.createElement('div');
+                hintDiv.className = 'terminal-hint';
+                hintDiv.innerHTML = `💡 ${cmd.hint}`;
+                output.appendChild(hintDiv);
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
 
             // Mark step as completed
             completedSteps.add(step.id);
@@ -2454,7 +2475,7 @@
             renderNavigation();
         }
 
-        function handleTerminalInput(event) {
+        async function handleTerminalInput(event) {
             if (event.key === 'Enter') {
                 const input = event.target;
                 const value = input.value.trim();
@@ -2472,17 +2493,44 @@
 
                 const output = document.getElementById('terminal-output');
                 
-                if (matchingCmd) {
-                    output.innerHTML += `
-                        <div class="terminal-line">
-                            <span class="terminal-prompt">${terminal.prompt}</span>
-                            <span>${value}</span>
-                        </div>
-                        <div class="terminal-output">${matchingCmd.output}</div>
-                    `;
+                // 显示用户输入的命令
+                output.innerHTML += `
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">${terminal.prompt}</span>
+                        <span>${value}</span>
+                    </div>
+                `;
+                
+                // 滚动到底部
+                const terminalBody = document.getElementById('terminal-body');
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+                
+                // 清空输入框
+                input.value = '';
 
+                if (matchingCmd) {
+                    // 模拟命令执行延迟
+                    await new Promise(resolve => setTimeout(resolve, 400));
+                    
+                    // 逐行显示输出
+                    const outputLines = matchingCmd.output.split('\n');
+                    for (let i = 0; i < outputLines.length; i++) {
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'terminal-output';
+                        lineDiv.textContent = outputLines[i];
+                        output.appendChild(lineDiv);
+                        terminalBody.scrollTop = terminalBody.scrollHeight;
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                    
+                    // 显示提示
                     if (matchingCmd.hint) {
-                        output.innerHTML += `<div class="terminal-hint">💡 ${matchingCmd.hint}</div>`;
+                        await new Promise(resolve => setTimeout(resolve, 200));
+                        const hintDiv = document.createElement('div');
+                        hintDiv.className = 'terminal-hint';
+                        hintDiv.innerHTML = `💡 ${matchingCmd.hint}`;
+                        output.appendChild(hintDiv);
+                        terminalBody.scrollTop = terminalBody.scrollHeight;
                     }
 
                     // Mark step as completed
@@ -2490,19 +2538,15 @@
                     saveProgress();
                     renderNavigation();
                 } else {
-                    output.innerHTML += `
-                        <div class="terminal-line">
-                            <span class="terminal-prompt">${terminal.prompt}</span>
-                            <span>${value}</span>
-                        </div>
-                        <div class="terminal-output" style="color: #ef4444;">命令未识别。点击下方按钮执行正确的命令，或点击「再试一次」重置。</div>
-                    `;
+                    // 显示错误信息
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'terminal-output';
+                    errorDiv.style.color = '#ef4444';
+                    errorDiv.textContent = '命令未识别。点击下方按钮执行正确的命令，或点击「再试一次」重置。';
+                    output.appendChild(errorDiv);
+                    terminalBody.scrollTop = terminalBody.scrollHeight;
                 }
-
-                // Clear input and scroll
-                input.value = '';
-                const terminalBody = document.getElementById('terminal-body');
-                terminalBody.scrollTop = terminalBody.scrollHeight;
             }
         }
 
